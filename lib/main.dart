@@ -196,7 +196,10 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                   _todoTitle = value;
                 });
               },
-              controller: TextEditingController(text: _todoTitle),
+              controller: TextEditingController.fromValue(TextEditingValue(
+                text: _todoTitle,
+                selection: TextSelection.fromPosition(TextPosition(offset: _todoTitle.length)),
+              )),
             ),
             const Text("詳細", style: TextStyle(color: Colors.blue)),
             Text(_todoDetail, style: const TextStyle(color: Colors.blue)),
@@ -206,7 +209,10 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                   _todoDetail = value;
                 });
               },
-              controller: TextEditingController(text: _todoDetail),
+              controller: TextEditingController.fromValue(TextEditingValue(
+                text: _todoDetail,
+                selection: TextSelection.fromPosition(TextPosition(offset: _todoDetail.length)),
+              )),
             ),
             const SizedBox(height: 8),
             // List<String>を返す
