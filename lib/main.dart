@@ -54,36 +54,25 @@ class _TodoListPageState extends State<TodoListPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () async {
-                      final editedText = await Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) {
-                          return TodoEditPage(
-                            initialText: todoList[index][0]
-                          );
-                        }),
-                      );
-                      if (editedText != null) {
-                        setState(() {
-                          todoList[index][0] = editedText;
-                        });
-                      }
-                    },
-                    splashRadius: 20,
-                  ),
-                  IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () => _removeTodoItem(index),
                     splashRadius: 20,
                   ),
                 ],
               ),
+              // タップしたら編集画面に遷移
+              // 編集ではTitleとDetailを編集できるようにする
               onTap: () async {
-                await Navigator.of(context).push(
+                final newListText = await Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return TodoDetailPage(todoText: todoList[index][1]);
+                    return TodoDetailPage(todoTitle: todoList[index][0], todoDetail: todoList[index][1]);
                   }),
                 );
+                if (newListText != null) {
+                  setState(() {
+                    todoList[index] = newListText;
+                  });
+                }
               },
             ),
           );
@@ -195,6 +184,7 @@ class _TodoEditPageState extends State<TodoEditPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Text("タイトル", style: TextStyle(color: Colors.blue)),
             Text(_text, style: const TextStyle(color: Colors.blue)),
             const SizedBox(height: 8),
             TextField(
@@ -212,7 +202,7 @@ class _TodoEditPageState extends State<TodoEditPage> {
                 onPressed: () {
                   Navigator.of(context).pop(_text);
                 },
-                child: const Text('編集', style: TextStyle(color: Colors.white)),
+                child: const Text('確定', style: TextStyle(color: Colors.white)),
               ),
             ),
             const SizedBox(height: 8),
@@ -233,15 +223,27 @@ class _TodoEditPageState extends State<TodoEditPage> {
 }
 
 class TodoDetailPage extends StatefulWidget {
-  final String todoText;
+  final String todoTitle;
+  final String todoDetail;
 
-  const TodoDetailPage({super.key, required this.todoText});
+
+  const TodoDetailPage({super.key, required this.todoTitle, required this.todoDetail});
 
   @override
   _TodoDetailPageState createState() => _TodoDetailPageState();
 }
 
 class _TodoDetailPageState extends State<TodoDetailPage> {
+  late String _todoTitle;
+  late String _todoDetail;
+
+  @override
+  void initState() {
+    super.initState();
+    _todoTitle = widget.todoTitle;
+    _todoDetail = widget.todoDetail;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -253,8 +255,38 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(widget.todoText, style: const TextStyle(color: Colors.blue)),
+            const Text("タイトル", style: TextStyle(color: Colors.blue)),
+            Text(_todoTitle, style: const TextStyle(color: Colors.blue)),
             const SizedBox(height: 8),
+            TextField(
+              onChanged: (String value) {
+                setState(() {
+                  _todoTitle = value;
+                });
+              },
+              controller: TextEditingController(text: _todoTitle),
+            ),
+            const Text("詳細", style: TextStyle(color: Colors.blue)),
+            Text(_todoDetail, style: const TextStyle(color: Colors.blue)),
+            TextField(
+              onChanged: (String value) {
+                setState(() {
+                  _todoDetail = value;
+                });
+              },
+              controller: TextEditingController(text: _todoDetail),
+            ),
+            const SizedBox(height: 8),
+            // List<String>を返す
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop([_todoTitle, _todoDetail]);
+                },
+                child: const Text('確定', style: TextStyle(color: Colors.white)),
+              ),
+            ),
             SizedBox(
               width: double.infinity,
               child: TextButton(
