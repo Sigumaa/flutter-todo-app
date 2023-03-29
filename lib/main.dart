@@ -30,7 +30,7 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  List<String> todoList = [];
+  List<List<String>> todoList = [];
 
   void _removeTodoItem(int index) {
     setState(() {
@@ -49,7 +49,7 @@ class _TodoListPageState extends State<TodoListPage> {
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              title: Text(todoList[index]),
+              title: Text(todoList[index][0]),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -59,13 +59,13 @@ class _TodoListPageState extends State<TodoListPage> {
                       final editedText = await Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
                           return TodoEditPage(
-                            initialText: todoList[index]
+                            initialText: todoList[index][0]
                           );
                         }),
                       );
                       if (editedText != null) {
                         setState(() {
-                          todoList[index] = editedText;
+                          todoList[index][0] = editedText;
                         });
                       }
                     },
@@ -81,7 +81,7 @@ class _TodoListPageState extends State<TodoListPage> {
               onTap: () async {
                 await Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return TodoDetailPage(todoText: todoList[index]);
+                    return TodoDetailPage(todoText: todoList[index][1]);
                   }),
                 );
               },
@@ -98,7 +98,7 @@ class _TodoListPageState extends State<TodoListPage> {
           );
           if (newListText != null) {
             setState(() {
-              todoList.add(newListText);
+              todoList.add([newListText, '']);
             });
           }
         },
