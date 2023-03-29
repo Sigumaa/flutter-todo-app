@@ -25,7 +25,6 @@ class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _TodoListPageState createState() => _TodoListPageState();
 }
 
@@ -136,73 +135,6 @@ class _TodoAddPageState extends State<TodoAddPage> {
                   Navigator.of(context).pop(_text);
                 },
                 child: const Text('追加', style: TextStyle(color: Colors.white)),
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('キャンセル'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TodoEditPage extends StatefulWidget {
-  final String initialText;
-
-  const TodoEditPage({super.key, required this.initialText});
-
-  @override
-  _TodoEditPageState createState() => _TodoEditPageState();
-}
-
-class _TodoEditPageState extends State<TodoEditPage> {
-  late String _text;
-
-  @override
-  void initState() {
-    super.initState();
-    _text = widget.initialText;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('ToDo編集'),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(64),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text("タイトル", style: TextStyle(color: Colors.blue)),
-            Text(_text, style: const TextStyle(color: Colors.blue)),
-            const SizedBox(height: 8),
-            TextField(
-              onChanged: (String value) {
-                setState(() {
-                  _text = value;
-                });
-              },
-              controller: TextEditingController(text: _text),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(_text);
-                },
-                child: const Text('確定', style: TextStyle(color: Colors.white)),
               ),
             ),
             const SizedBox(height: 8),
