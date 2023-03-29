@@ -42,7 +42,7 @@ class _TodoListPageState extends State<TodoListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('リスト一覧'),
+        title: const Text('ToDo一覧'),
       ),
       body: ListView.builder(
         itemCount: todoList.length,
@@ -69,10 +69,12 @@ class _TodoListPageState extends State<TodoListPage> {
                         });
                       }
                     },
+                    splashRadius: 20,
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () => _removeTodoItem(index),
+                    splashRadius: 20,
                   ),
                 ],
               ),
@@ -114,7 +116,7 @@ class _TodoAddPageState extends State<TodoAddPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('リスト追加'),
+        title: const Text('ToDoを追加'),
       ),
       body: Container(
         padding: const EdgeInsets.all(64),
@@ -137,7 +139,7 @@ class _TodoAddPageState extends State<TodoAddPage> {
                 onPressed: () {
                   Navigator.of(context).pop(_text);
                 },
-                child: const Text('リスト追加', style: TextStyle(color: Colors.white)),
+                child: const Text('追加', style: TextStyle(color: Colors.white)),
               ),
             ),
             const SizedBox(height: 8),
@@ -179,7 +181,7 @@ class _TodoEditPageState extends State<TodoEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('リスト編集'),
+        title: const Text('ToDo編集'),
       ),
       body: Container(
         padding: const EdgeInsets.all(64),
@@ -203,7 +205,7 @@ class _TodoEditPageState extends State<TodoEditPage> {
                 onPressed: () {
                   Navigator.of(context).pop(_text);
                 },
-                child: const Text('リスト編集', style: TextStyle(color: Colors.white)),
+                child: const Text('編集', style: TextStyle(color: Colors.white)),
               ),
             ),
             const SizedBox(height: 8),
