@@ -78,6 +78,13 @@ class _TodoListPageState extends State<TodoListPage> {
                   ),
                 ],
               ),
+              onTap: () async {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return TodoDetailPage(todoText: todoList[index]);
+                  }),
+                );
+              },
             ),
           );
         },
@@ -216,6 +223,45 @@ class _TodoEditPageState extends State<TodoEditPage> {
                   Navigator.of(context).pop();
                 },
                 child: const Text('キャンセル'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TodoDetailPage extends StatefulWidget {
+  final String todoText;
+
+  const TodoDetailPage({super.key, required this.todoText});
+
+  @override
+  _TodoDetailPageState createState() => _TodoDetailPageState();
+}
+
+class _TodoDetailPageState extends State<TodoDetailPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('ToDo詳細'),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(64),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(widget.todoText, style: const TextStyle(color: Colors.blue)),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('戻る'),
               ),
             ),
           ],
